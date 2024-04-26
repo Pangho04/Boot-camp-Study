@@ -90,7 +90,7 @@ body {
 .player-board-info {
   display: flex;
   align-self: center;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
   height: 5%;
 }
@@ -129,18 +129,15 @@ body {
   align-items: center;
   width: 100%;
 }
-/* .a{
-  display: flex;
-  height: 90%;
-  width: 100%;
-  justify-content: space-evenly;
-} */
 .game-line-choose {
   display: flex;
   justify-content: space-evenly;
   height: 100%;
   align-items: center;
   width: 100%;
+}
+.game-option-count, .game-line-choose {
+  font-weight: bold;
 }
 .line-count-down, .line-count-up, .game-option-down, .game-option-up {
   height: 100%;
@@ -279,7 +276,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 15%;
+  width: 8rem;
   opacity: 0.7;
   border-radius: 1rem;
   
@@ -290,12 +287,19 @@ body {
 }
 .history-back {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-align: right;
+  justify-content: space-around;
+  position: relative;
+  /* align-items: center; */
+  /* text-align: right; */
   width: 100%;
   height: 5%;
-  margin: 5% 0 1%
+  margin: 3% 0;
+}
+.undo-button {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 .game-start-button {
   border: none;
@@ -323,8 +327,9 @@ body {
   width: 100%;
   height: 100%;
 }
+
 .history-back-button, .restart-button {
-  width: 6rem;
+  width: 8rem;
   height: 2rem;
   border: none;
   border-radius: 5px;
@@ -334,6 +339,12 @@ body {
   transition: 0.4s;
   font-size: 16px;
   font-weight: bold;
+}
+.z-index {
+  z-index: -1;
+}
+.restart-button {
+  position: relative;
 }
 .history-back-button:hover, .restart-button:hover {
   opacity: 100%;
