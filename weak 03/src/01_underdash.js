@@ -56,7 +56,6 @@ _.indexOf = function (array, target) {
       result = index;
     }
   });
-
   return result;
 };
 
@@ -101,7 +100,7 @@ _.reduce = function (array, iterator, accumulator) {
     } else {
       memo = accumulator;
       item = array [i];
-      }
+    }
 
     accumulator = iterator(memo, item);
 
@@ -198,7 +197,6 @@ _.throttle = function (func, wait) {
       func();
       result = true;
     }
-
     setTimeout(function () {
       result = false;
     }, wait);
@@ -216,8 +214,9 @@ _.throttle = function (func, wait) {
  */
 _.memoize = function (func) {
   const save = {};
+
   const some = function (...arg) {
-    if (!(save.hasOwnProperty(...arg))) {
+    if (!save.hasOwnProperty(...arg)) {
       save[arg] = func(...arg);
       return save[arg];
     } else {

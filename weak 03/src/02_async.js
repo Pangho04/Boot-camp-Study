@@ -4,8 +4,7 @@
  *
  */
 
-const async = {
-};
+const async = {};
 
 /*
  *
@@ -31,6 +30,7 @@ const async = {
 async.map = function map(list, iteratee, finalCallback) {
   // 변수
   const result = [];
+
   // 함수
   function iterFunc() {
     for (const num of list) {
@@ -38,18 +38,15 @@ async.map = function map(list, iteratee, finalCallback) {
     }
   }
   function getResult(x) {
-    result[getIndex(x)] = x;
-    if (!isBlank) {
-      console.log("INNER RESULT:", result)
-      if (result.length === list.length) {
-        finalCallback(result);
-      }
+    getIndex(x / 2);
+    if (!isBlank(result) && result.length === list.length) {
+      finalCallback(result);
     }
   }
   function getIndex(x) {
     for (let i = 0; i < list.length; i++) {
-      if (list[i] === x / 2) {
-        return i;
+      if (list[i] === x) {
+        return result[i] = 2 * x;
       }
     }
   }
@@ -59,12 +56,11 @@ async.map = function map(list, iteratee, finalCallback) {
         return true;
       }
     }
-    // console.log(result.length)
-  return false;
+    return false;
   }
+
   //실행문
   iterFunc();
-  // console.log("OUTER RESULT:", result);
 };
 
 /*
