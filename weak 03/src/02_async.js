@@ -86,27 +86,23 @@ async.map = function map(list, iteratee, finalCallback) {
  * Piece 👍🏻
  */
 async.reduce = function reduce(list, initialValue, iteratee, finalCallback) {
-  // TODO
   // 변수
-  const result = 0;
-  const acc = 0;
-
-  function getAcc (beAcc) {
-    if () {
-      acc = beAcc
-    }
-    finalCallback(acc);
-  }
-  function iteratee (beAcc, initialValue, getAcc) {
-    for (let i = 0; i < list.length; i++) {
-      if ( i === 0 ) {
-        getAcc(initialValue, list[i]);
-      } else {
-        getAcc(beAcc, list[i]);
-      }
+  let result = 0;
+  let count = 0;
+  //함수
+  function getAcc(acc) {
+    count++;
+    result = acc;
+    if (count === list.length) {
+      return finalCallback(result);
+    } else {
+      iteratee(result, list[count], getAcc);
     }
   }
+  // 실행문
+  iteratee(initialValue, list[0], getAcc);
 };
+
 
 /*
  *
