@@ -1,0 +1,60 @@
+body {
+    text-align: right;
+}
+a {
+    margin: 10px;
+    font-size: 14px;
+}
+.sign-in {
+    background-color: #1a73e8;
+    color: white;
+    padding: 9px 23px;
+    border-radius: 4px;
+}
+
+header {
+    margin-top: 20px;
+}
+
+.logo-box {
+    text-align: center;
+    margin-top: 100px;
+    }
+.logo-box img{
+    width: 200px;
+}
+
+input {
+    border-radius: 50px;
+    border: 1px solid gray; [설명] 1px 두께, 직선, 회색
+}
+
+.input-box {
+    text-align: center;
+}
+
+.input {
+    position: relative;
+    display: inline-block;
+}
+
+.input img{
+    position: absolute;
+    left: 5px;
+    width: 12px;
+    height: 12px;
+    margin-top: 4px;
+}
+
+.button {
+    padding: 5px;
+    background-color: lightgray;
+    font-size: 12px;
+    color: grey;
+    border-radius: 2px;
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+}
