@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>JavaScript in TDD</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <br>
+<p align="center">
+  <img src="file:////readme-assets/vaco.png"  width="100%">
+</p>
+<br>
+<blockquote>
+<p>📌 바닐라코딩의 모든 과제 및 수업 내용은 저작권법의 보호를 받습니다.</p>
+</blockquote>
+<br>
+<br>
+<h1 id="javascript-in-tdd">JavaScript in TDD</h1>
+<p>드디어 자바스크립트를 이용해 코드를 작성해보려고 합니다. 🎉</p>
+<p>이번 주 우리는 TDD 방식이 적용된 과제를 진행해보려고 하는데요.</p>
+<p><a href="https://ko.wikipedia.org/wiki/%ED%85%8C%EC%8A%A4%ED%8A%B8_%EC%A3%BC%EB%8F%84_%EA%B0%9C%EB%B0%9C">TDD(Test-Driven Development)</a>란 테스트 주도 개발이라는 의미입니다. 하나의 제품을 모두 완성 후 테스트를 진행하는 방식이 아니라, TDD는 소프트웨어가 완전히 개발되기 전에 소프트웨어 요구 사항을 테스트 케이스로 작성하고, 모든 테스트 케이스에 대해 반복적으로 테스트하여 모든 소프트웨어 개발을 추적하는 소프트웨어 개발 프로세스입니다.</p>
+<p>개념이 조금 어렵죠? 지금 꼭 이해하지 못해도 괜찮습니다. 여러분께서 이해해야 하는 것은, TDD가 소프트웨어 개발 측면에서 이론적으로 효율성이 검증된 개발 방법론이라고만 이해하면 충분합니다.🤓</p>
+<br>
+<br>
+<p align="left">
+  <img src="file:////readme-assets/TDD Image.png"  width="600" >
+</p>
+<br>
+<br>
+<h2 id="과제-구조">과제 구조</h2>
+<pre><code>PRE-W02
+   ├── README.md
+   ├── 👑 index.html
+   ├── homeworks
+   │   ├── 👑 1_practice.js
+   │   ├── 👑 2_number.js
+   │   ├── 👑 3_boolean.js
+   │   ├── 👑 4_string.js
+   │   └── 👑 5_advanced.js
+   ├── 1_practice.html
+   ├── 2_number.html
+   ├── 3_boolean.html
+   ├── 4_string.html
+   ├── 5_advanced.html
+   ├── images
+   ├── lib
+   ├── readme-assets
+   └── styles
+</code></pre>
+<br>
+<p>이번 과제에서 우리가 사용할 파일은 위에 왕관 표시가 되어 있는 6개의 파일입니다. <code>index.html</code> 파일과 <code>homeworks</code> 폴더 하위 5개의 자바스크립트 파일이 확인되시나요? 😎</p>
+<br>
+<p>그럼 과제 진행 방법에 대해 소개해드리겠습니다.</p>
+<br>
+<br>
+<h2 id="과제-진행-방법">과제 진행 방법</h2>
+<br>
+<p>⭐️ 우선 처음에는 아래 순서에 따라 시작해보세요.</p>
+<br>
+<ol>
+<li><code>index.html</code> 파일을 브라우저에서 열어보세요.</li>
+<li><code>1. 연습게임</code> 카드를 눌러보세요.</li>
+<li>코드 에디터에서 <code>homeworks/1_practice.js</code> 파일을 열어주세요.</li>
+<li><code>homeworks/1_practice.js</code> 파일 내의 안내사항에 따라 테스트를 통과할 수 있도록 코드를 수정해주세요.</li>
+<li>코드 변경사항을 저장하고, 브라우저에서 새로고침을 눌러 테스트 결과를 확인해보세요.</li>
+<li>연습게임의 모든 테스트가 통과되도록 <code>homeworks/1_practice.js</code> 파일을 끝까지 완성해주세요.</li>
+</ol>
+<br>
+<p>이 과정을 반복하며 과제 메인 페이지(<code>index.html</code>)에 있는 5개의 카드에 대해 문제풀이를 완성해주시면 되며, <code>homeworks</code> 폴더 하위 5개의 자바스크립트 파일이 여러분이 작업할 과제 파일입니다. 💁🏻‍♂️</p>
+<br>
+<h3 id="-사소하지만-유용한-팁">✨ 사소하지만, 유용한 팁</h3>
+<ul>
+<li>vscode에서 파일을 저장 단축키 (맥: <code>cmd + s</code>, 윈도우: <code>ctrl + s</code>)</li>
+<li>브라우저에서 페이지 새로고침 단축키 (맥: <code>cmd + r</code>, 윈도우: <code>ctrl + r</code>)</li>
+<li><a href="https://www.youtube.com/watch?v=T8DrI6K8ArE&amp;ab_channel=AlanSimpson">VS Code에서 HTML 파일 쉽게 브라우저로 열기</a></li>
+</ul>
+<br>
+<br>
+<h2 id="참고자료">참고자료</h2>
+<ul>
+<li><a href="https://vanilla-coding.gitbook.io/starter-kit">바닐라코딩 스타터키트</a></li>
+<li>TDD 이미지 출처 / <a href="https://link.springer.com/article/10.1007/s11219-020-09534-x">Test-driven development with mutation testing</a></li>
+</ul>
+<br>
+<br>
+<h2 id="유의사항">유의사항</h2>
+<ul>
+<li>VS Code에서 코드 변경사항을 반드시 저장해야 정상적으로 브라우저에서 테스트 결과를 확인할 수 있습니다.</li>
+<li>반드시 크롬 브라우저를 사용하세요.</li>
+<li>도움이 필요하면 꼭 도움을 요청하세요! 🙋🏻‍♂️</li>
+</ul>
+
+            
+            
+        </body>
+        </html>

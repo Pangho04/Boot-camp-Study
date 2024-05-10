@@ -1,0 +1,54 @@
+body {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+.title {
+  font-size: 2rem;
+  margin: 0.5rem;
+}
+.startBtn {
+  background-color: aquamarine;
+  align-self: center;
+  width: 3rem;
+  margin: 0.5rem;
+}
+.main {
+  /* background-color: blueviolet; */
+  margin: 0.5rem;
+  height: 415px;
+  width: 415px;
+  align-self: center;
+}
+.leftTime {
+  background-color: burlywood;
+  margin: 0.5rem;
+}
+.leftChar {
+  background-color: brown;
+  margin: 0.5rem;
+}
+.footer {
+  display: none;
+  justify-content: space-between;
+  /* align-self: center; */
+}
+.game-board {
+  display: grid;
+  height: 415px;
+  width: 415px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+}
+.game-board > div {
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  min-width: 62px;
+  min-height: 62px;
+}
+.game-board > div > img {
+  object-fit: scale-down;
+}
