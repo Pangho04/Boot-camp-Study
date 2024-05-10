@@ -1,25 +1,32 @@
-body {
+body, header {
   display: flex;
   flex-direction: column;
   text-align: center;
   justify-content: center;
   align-items: center;
 }
+.restart {
+  display: none;
+}
+
+
+body {
+  height: 50rem;
+}
 .title {
   font-size: 2rem;
   margin: 0.5rem;
 }
-.startBtn {
-  background-color: aquamarine;
-  align-self: center;
-  width: 3rem;
-  margin: 0.5rem;
+img {
+  width: 100%;
+  height: 100%;
 }
+
 .main {
   /* background-color: blueviolet; */
   margin: 0.5rem;
-  height: 415px;
-  width: 415px;
+  height: 30rem;
+  width : 35rem;
   align-self: center;
 }
 .leftTime {
@@ -33,12 +40,16 @@ body {
 .footer {
   display: none;
   justify-content: space-between;
-  /* align-self: center; */
+  width: 20rem;
+}
+.waiting-board {
+  height: 30rem;
+  width : 35rem;
 }
 .game-board {
   display: grid;
-  height: 415px;
-  width: 415px;
+  height: 30rem;
+  width : 35rem;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
 }
