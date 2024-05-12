@@ -55,6 +55,7 @@ function Board({ xIsNext, squares, onPlay }) {
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
+  const [lineUp, setLineUp] = useState(true);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
@@ -67,24 +68,42 @@ export default function Game() {
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
   }
+  function moveList() {
+    if (lineUp) {
+      return history.map((squares, move) => {
+        let description;
+        if (move > 0) {
+          description = 'Go to move #' + move;
+        } else {
+          description = 'Go to game start';
+        }
+        return (
+          <li key={move}>
+            <button onClick={() => jumpTo(move)}>{description}</button>
+          </li>
+        );
+      });
+  } else {
+    const reversedHistory = [...history].reverse();
+    return reversedHistory.map((squares, move) => {
+      const reversedMove = history.length - 1 - move;
+      let description;
+      if (reversedMove > 0) {
+        description = 'Go to move #' + reversedMove;
+      } else {
+        description = 'Go to game start';
+      }
+      return (
+        <li key={move}>
+          <button onClick={() => jumpTo(reversedMove)}>{description}</button>
+        </li>
+      );
+    });
+  }
+  }
 
-  const moves = history.map((squares, move) => {
-    let description;
-    if (move > 0) {
-      description = 'Go to move #' + move;
-    } else {
-      description = 'Go to game start';
-    }
-    return (
-      <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
-      </li>
-    );
-  });
-
-  function lineUp() {
-    tiemMachine.sort((a,b) => {moves.indexOf(b) - moves.indexOf(a)})
-    console.log(moves)
+  function linedUp() {
+    setLineUp(!lineUp);
   }
 
   return (
@@ -97,10 +116,10 @@ export default function Game() {
           Your turn Now: #{currentMove}
         </div>
         <ol className="timeMachine">
-          <button onClick={lineUp}>
+          <button onClick={linedUp}>
           ↑↓
           </button>
-          {moves}
+          {moveList()}
         </ol>
       </div>
     </div>
