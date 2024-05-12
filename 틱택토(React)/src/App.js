@@ -83,7 +83,8 @@ export default function Game() {
   });
 
   function lineUp() {
-
+    tiemMachine.sort((a,b) => {moves.indexOf(b) - moves.indexOf(a)})
+    console.log(moves)
   }
 
   return (
@@ -92,13 +93,15 @@ export default function Game() {
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay}/>
       </div>
       <div className="game-info">
-        <button>
-        ↑↓
-        </button>
         <div>
           Your turn Now: #{currentMove}
         </div>
-        <ol>{moves}</ol>
+        <ol className="timeMachine">
+          <button onClick={lineUp}>
+          ↑↓
+          </button>
+          {moves}
+        </ol>
       </div>
     </div>
   )
