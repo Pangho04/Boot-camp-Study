@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-function Square({ value, onSquareClick }) {
+function Square({ value, onSquareClick, style }) {
   return (
-  <button className="square" onClick={onSquareClick}>
+  <button className="square" onClick={onSquareClick} style={ style } >
     {value}
     </button>
   );
@@ -25,7 +25,9 @@ function Board({ xIsNext, squares, onPlay }) {
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
-    status = "Winner: " + winner;
+    status = "Winner: " + squares[winner[0]];
+  } else if ( squares[8] && !winner) {
+    status = 'No one win...';
   } else {
     status = "Next player: " + (xIsNext ? "X" : "O");
   }
@@ -34,13 +36,23 @@ function Board({ xIsNext, squares, onPlay }) {
     const makeRows = [];
     for (let i = 0; i < 9; i += 3) {
       const makeSquares = [];
+      makeRows.push(<div key={i} className="board-row">{makeSquares}</div>);
 
       for (let j = i; j < i + 3; j++) {
+        let squareStyle = {};
+
+        if (winner && winner.includes(j)) {
+          squareStyle = { backgroundColor: "red" }
+        }
         makeSquares.push(
-          <Square value={squares[j]} onSquareClick={() => handleClick(j)} />
+          <Square
+            key={j}
+            value={squares[j]}
+            onSquareClick={() => handleClick(j)}
+            style={squareStyle}
+          />
         );
       }
-      makeRows.push(<div className="board-row">{makeSquares}</div>);
     }
     return makeRows;
   }
@@ -72,8 +84,10 @@ export default function Game() {
     if (lineUp) {
       return history.map((squares, move) => {
         let description;
-        if (move > 0) {
-          description = 'Go to move #' + move;
+
+        if (move > 0 && move < 4) {
+          description = 'Go to move #' + move + `(row: 1, collum:${currentSquares})`;
+          console.log(history)
         } else {
           description = 'Go to game start';
         }
@@ -141,7 +155,7 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return lines[i];
     }
   }
   return null;
