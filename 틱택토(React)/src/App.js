@@ -2,8 +2,8 @@ import { useState } from "react";
 
 function Square({ value, onSquareClick, style }) {
   return (
-  <button className="square" onClick={onSquareClick} style={ style } >
-    {value}
+    <button className="square" onClick={onSquareClick} style={style} >
+      {value}
     </button>
   );
 }
@@ -26,7 +26,7 @@ function Board({ xIsNext, squares, onPlay }) {
   let status;
   if (winner) {
     status = "Winner: " + squares[winner[0]];
-  } else if ( squares[8] && !winner) {
+  } else if (squares[8] && !winner) {
     status = 'No one win...';
   } else {
     status = "Next player: " + (xIsNext ? "X" : "O");
@@ -58,10 +58,10 @@ function Board({ xIsNext, squares, onPlay }) {
   }
 
   return (
-  <>
-    <div className="status">{status}</div>
-    {makeBoard()}
-  </>
+    <>
+      <div className="status">{status}</div>
+      {makeBoard()}
+    </>
   );
 }
 export default function Game() {
@@ -97,23 +97,24 @@ export default function Game() {
           </li>
         );
       });
-  } else {
-    const reversedHistory = [...history].reverse();
-    return reversedHistory.map((squares, move) => {
-      const reversedMove = history.length - 1 - move;
-      let description;
-      if (reversedMove > 0) {
-        description = 'Go to move #' + reversedMove;
-      } else {
-        description = 'Go to game start';
-      }
-      return (
-        <li key={move}>
-          <button onClick={() => jumpTo(reversedMove)}>{description}</button>
-        </li>
-      );
-    });
-  }
+    } else {
+      const reversedHistory = [...history].reverse();
+
+      return reversedHistory.map((squares, move) => {
+        const reversedMove = history.length - 1 - move;
+        let description;
+        if (reversedMove > 0) {
+          description = 'Go to move #' + reversedMove;
+        } else {
+          description = 'Go to game start';
+        }
+        return (
+          <li key={move}>
+            <button onClick={() => jumpTo(reversedMove)}>{description}</button>
+          </li>
+        );
+      });
+    }
   }
 
   function linedUp() {
@@ -123,7 +124,7 @@ export default function Game() {
   return (
     <div className="game">
       <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay}/>
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
         <div>
@@ -131,7 +132,7 @@ export default function Game() {
         </div>
         <ol className="timeMachine">
           <button onClick={linedUp}>
-          ↑↓
+            ↑↓
           </button>
           {moveList()}
         </ol>

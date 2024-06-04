@@ -1,12 +1,13 @@
 .nav-button {
-  color: #cccccc;
+  color: #b1b1b1;
   text-decoration: none;
-  font-size: 20px;
+  min-width: 23%;
+  font-size: 180%;
   font-weight: 300;
   cursor: pointer;
   padding: 10px;
-  border-radius: 2px;
-  border: 1px solid #cccccc;
+  border-radius: 15px;
+  border: 1px solid #838383;
   transition: 0.3s all ease;
 }
 
@@ -14,5 +15,12 @@
 .nav-button.active {
   font-weight: 500;
   color: #eeeeee;
-  background-color: #2574d0;
+  background-color: #c1b8db;
+}
+
+@media (max-width: 576px) {
+  .nav-button {
+    font-size: 100%
+  }
+  
 }

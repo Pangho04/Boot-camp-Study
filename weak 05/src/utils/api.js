@@ -15,9 +15,9 @@ import POPULAR_REPOS from './popularRepositories.json';
   7. Enter your Client ID and Secret ID below
 
  */
-const GITHUB_CLIENT_ID = 'GITHUB_CLIENT_ID';
-const GITHUB_SECRET_ID = 'GITHUB_SECRET_ID';
 
+const GITHUB_CLIENT_ID = 'Ov23li31QEdAGQAb4OkC';
+const GITHUB_SECRET_ID = '625a588c411c69cb707889e9f94f003995ed59f6';
 const defaultParams = `?client_id=${GITHUB_CLIENT_ID}&client_secret=${GITHUB_SECRET_ID}`;
 
 function getErrorMsg(message, username) {
@@ -28,53 +28,33 @@ function getErrorMsg(message, username) {
   return message;
 }
 
-function request(uri) {
-  return new Promise(function (resolve, reject) {
-    const xhr = new XMLHttpRequest();
-
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        resolve(xhr.responseText);
-      }
-    };
-
-    xhr.open('GET', uri, true);
-    xhr.send(null);
-  });
-}
-
-function getProfile(username) {
-    return fetch(
+async function getProfile(username) {
+  try {
+    const response = await fetch(
       `https://api.github.com/users/${username}${defaultParams}`
-    ).then((profile) => {
-      if (profile.message) {
-        throw new Error(getErrorMsg(profile.message, username));
-      }
-  // return request(
-  //   `https://api.github.com/users/${username}${defaultParams}`
-  // ).then((profile) => {
-  //   if (profile.message) {
-  //     throw new Error(getErrorMsg(profile.message, username));
-  //   }
-    return profile.json();
-  });
+    );
+
+    if (response.status === 404) throw new Error('Not Found');
+
+    const userProfile = await response.json();
+
+    return userProfile;
+  } catch (e) {
+    alert(getErrorMsg(e.message, username));
+  }
 }
 
-function getRepos(username) {
-  return fetch(
-    `https://api.github.com/users/${username}/repos${defaultParams}&per_page=100`
-  ).then((repos) => {
-    if (repos.message) {
-      throw new Error(getErrorMsg(repos.message, username));
-    }
-  // return request(
-  // //   `https://api.github.com/users/${username}/repos${defaultParams}&per_page=100`
-  // // ).then((repos) => {
-  // //   if (repos.message) {
-  // //     throw new Error(getErrorMsg(repos.message, username));
-  // //   }
-    return repos.json();
-  });
+async function getRepos(username) {
+  try {
+    const response = await fetch(
+      `https://api.github.com/users/${username}/repos${defaultParams}&per_page=100`
+    );
+    const userRepos = await response.json();
+
+    return userRepos;
+  } catch (e) {
+    console.log('데이터 요청에 실패하여, MOCK데이터로 대체합니다.');
+  }
 }
 
 function getStarCount(repos) {
@@ -89,33 +69,52 @@ function calculateScore(followers, repos) {
 }
 
 async function getUserData(player) {
-  const profile = await getProfile(player);
-  const repos = await getRepos(player);
+  let profile;
+  let repos;
 
-  return {
+  try {
+    profile = await getProfile(player);
+    repos = await getRepos(player);
+
+    if (typeof profile === 'undefined' || !repos) throw new Error;
+  } catch (e) {
+    console.log('데이터 요청에 실패하여, MOCK데이터로 대체합니다.');
+
+    profile = PROFILE;
+    repos = PERSONAL_REPOS;
+  }
+
+  return ({
     profile,
     score: calculateScore(profile.followers, repos),
-  };
-}
-
-function sortPlayers(players) {
-  return players.sort((a, b) => b.score - a.score);
+  });
 }
 
 export async function battle([player1, player2]) {
   const playerOne = await getUserData(player1);
   const playerTwo = await getUserData(player2);
 
-  return sortPlayers([playerOne, playerTwo]);
+  return [playerOne, playerTwo];
 }
-/**인기 저장소 요청 API */
-export async function getPopularRepos(language) {
-  const endpoint = window.encodeURI(
-    `https://api.github.com/search/repositories${defaultParams}&q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`
-  );
 
-  const res = await fetch(endpoint);
-  const { items } = await res.json();
+export async function getPopularRepos(language) {
+  let items;
+
+  try {
+    const endpoint = window.encodeURI(
+      `https://api.github.com/search/repositories${defaultParams}&q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`
+    );
+    const response = await fetch(endpoint);
+
+    if (!response.ok) throw new Error;
+
+    const data = await response.json();
+    items = data.items;
+  } catch (e) {
+    alert('데이터 요청에 실패하여, MOCK데이터로 대체합니다.');
+
+    items = POPULAR_REPOS;
+  }
 
   return items;
 }
